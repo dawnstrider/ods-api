@@ -1,8 +1,8 @@
 //    *********************************************
-//    *     ASAM ODS 5.3.0 Interface Definition     *
+//    *     ASAM ODS 5.3.1 Interface Definition   *
 //    *********************************************
 //
-//    Generated: Tue Nov 20 09:28:37 CET 2012
+//
 //
 // More explanation for the method getInstancesEx of the interface
 // ApplElemAccess.   More details for the method setRelationType of the
@@ -120,6 +120,19 @@
 //
 // 2012-11-20
 // Final release ODS 5.3.0
+//
+// 2013-05-21
+// Remove references of the RPC API.
+//
+// 2014-03-24
+// Add comment to the methods nextN and nextOne of all iterators.
+//
+// 2014-10-10
+// Remove AoException AO_INVALID_REQUEST. Change description of method
+// getValueMatrixInMode of interface Measurement.
+//
+// 2015-01-01
+// Final release ODS 5.3.1
 //
 //
 #ifndef ods_idl
@@ -568,11 +581,11 @@ struct T_DCOMPLEX {
 */
 struct NameUnit {
    Name     valName; // Attribute name or measured quantity name.
-   T_STRING unit;    // Column unit as string.
+   T_STRING unit;    // Attribute unit as string.
 };
 
 /**
-* The description of an reference object, the reference object can be an
+* The description of a reference object, the reference object can be an
 * internal ASAM ODS object or an external object. This type is
 * represented in the datatype enumeration by DT_EXTERNALREFERENCE.
 */
@@ -590,33 +603,24 @@ struct T_ExternalReference {
 struct ApplAttr {
    Name       aaName;       // The application attribute name. The same name
                             // is returned by the method getName() of the
-                            // ApplicationAttribute interface.     At the RPC
-                            // API this information was stored in the field
-                            // aAName of the structure AttrSeq and the request
-                            // AOP_GetAttr.
-   Name       baName;       // The name of the base attribute, empty ("") if
-                            // the application attribute is not derived from a
-                            // base attribute. The same name is returned by
-                            // the methods getName() of the BaseAttribute
-                            // interface. The base attribute is given by the
-                            // the method getBaseAttribute() of the interface
-                            // ApplicationAttribute.     At the RPC API this
-                            // information was stored in the field aBName of
-                            // the structure AttrSeq and the request
-                            // AOP_GetAttr.
+                            // ApplicationAttribute interface.
+   Name       baName;       // The name of the base attribute, empty string
+                            // ("") if the application attribute is not
+                            // derived from a base attribute. The same name is
+                            // returned by the method getName() of the
+                            // BaseAttribute interface. The base attribute is
+                            // given by the method getBaseAttribute() of the
+                            // interface ApplicationAttribute.
    DataType   dType;        // The attribute data type. The same data type is
                             // given by the method getDataType of the
-                            // interface ApplicationAttribute.     At the RPC
-                            // API this information was stored in the field
-                            // aDataType of the structure AttrSeq and the
-                            // request AOP_GetAttr.
+                            // interface ApplicationAttribute.
    T_LONG     length;       // The maximum possible length of values. The same
                             // length is returned by the method getLength() of
                             // the interface ApplicationAttribute.
    T_BOOLEAN  isObligatory; // The indicator for mandatory attributes, the
                             // notNull indicator is set at the column of the
                             // table in the physical storage.  The same
-                            // boolean is returned at the method
+                            // boolean is returned by the method
                             // isObligatory() of the interface
                             // ApplicationAttribute.
    T_BOOLEAN  isUnique;     // The indicator for unique attributes. The same
@@ -624,10 +628,7 @@ struct ApplAttr {
                             // the interface ApplicationAttribute.
    T_LONGLONG unitId;       // Id of the unit if global defined. The same Id
                             // is returned by the method getUnit() of the
-                            // interface ApplicationAttribute.     At the RPC
-                            // API this information was stored in the field
-                            // aUnit of the structure AttrSeq and the request
-                            // AOP_GetAttr.
+                            // interface ApplicationAttribute.
 };
 
 /**
@@ -643,29 +644,19 @@ struct ApplAttr {
 struct ApplRel {
    T_LONGLONG    elem1;            // The source application element Id. The
                                    // given Id is the Id of the application
-                                   // element returned from the method
+                                   // element returned by the method
                                    // getElem1() of the interface
-                                   // ApplicationRelation.     At the RPC API
-                                   // this information was stored in the field
-                                   // arAid1 of the structure ApplRelSeq and
-                                   // the request AOP_GetApplInf.
+                                   // ApplicationRelation.
    T_LONGLONG    elem2;            // The target application element Id. The
                                    // given Id is the Id of the application
-                                   // element returned from the method
+                                   // element returned by the method
                                    // getElem2() of the interface
-                                   // ApplicationRelation.     At the RPC API
-                                   // this information was stored in the field
-                                   // arAid2 of the structure ApplRelSeq and
-                                   // the request AOP_GetApplInf.
-   Name          arName;           // The relation name. The name is return
-                                   // with the method getName() of the
-                                   // interface ApplicationRelation.     At
-                                   // the RPC API this information was stored
-                                   // in the field arName of the structure
-                                   // ApplRelSeq and the request
-                                   // AOP_GetApplInf.
+                                   // ApplicationRelation.
+   Name          arName;           // The relation name. The name is returned
+                                   // by the method getName() of the interface
+                                   // ApplicationRelation.
    Name          invName;          // Name of the inverse relation. The name
-                                   // is return with the method
+                                   // is returned by the method
                                    // getInverseName() of the interface
                                    // ApplicationRelation. The invName is not
                                    // available in the physical storage for
@@ -679,18 +670,18 @@ struct ApplRel {
                                    // physical storage.
    RelationType  arRelationType;   // The type of the relation. Type of the
                                    // relation is not stored in the physical
-                                   // storage. The relation type is return at
-                                   // the method getRelationType() of the
+                                   // storage. The relation type is returned
+                                   // by the method getRelationType() of the
                                    // interface ApplicationRelation.
    RelationRange arRelationRange;  // The range of the relation. Range of the
                                    // relation is not stored in the physical
-                                   // storage. The relation range is return at
-                                   // the method getRelationRange() of the
+                                   // storage. The relation range is returned
+                                   // by the method getRelationRange() of the
                                    // interface ApplicationRelation.
    RelationRange invRelationRange; // The inverse range of the relation. Range
                                    // of the relation is not stored in the
                                    // physical storage. The inverse relation
-                                   // range is return at the method
+                                   // range is returned by the method
                                    // getInverseRelationRange() of the
                                    // interface ApplicationRelation.
 };
@@ -700,7 +691,7 @@ struct ApplRel {
 */
 struct AIDName {
    T_LONGLONG aid;    // The Id of the application element.
-   Name       aaName; // The attribute, or measured quantity name.
+   Name       aaName; // The application attribute name.
 };
 
 /**
@@ -717,9 +708,8 @@ struct ElemId {
 struct AIDNameUnitId {
    AIDName    attr;   // The attribute  of the application element (aid,
                       // name).
-   T_LONGLONG unitId; // The unit of the attribute or the column. The unitId
-                      // is the Id of instance element with the basetype
-                      // AoUnit.
+   T_LONGLONG unitId; // The unit of the attribute. The unitId is the Id of
+                      // the instance element with the basetype AoUnit.
 };
 
 /**
@@ -749,28 +739,27 @@ struct InitialRight {
 };
 
 /**
-* it’s quite the same sequence as in the QueryStructure of GetInstances
+* It’s quite the same sequence as in the QueryStructure of GetInstances
 * with one exception. It has one new attribute called function, which is
 * of the type AggrFunc. Thereby  it is possible to define aggregate
 * functions on attribute level, without the need to parse the attribute
 * name for a known aggregate function name. The default value of that
 * attribute function is NONE, it symbolizes that no aggregate function
-* should be applied on that attribute.If an aggregate function is used,
-* it is also required to define a GroupSequence.It is also defined that a
-* ‘*’ as attribute name, delivers all attributes of an element.
+* should be applied on that attribute. If an aggregate function is used,
+* it is also required to define a GroupSequence. It is also defined that
+* a ‘*’ as attribute name, delivers all attributes of an element.
 */
 struct SelAIDNameUnitId {
    AIDName    attr;      // The attribute  of the application element (aid,
                          // name).
-   T_LONGLONG unitId;    // The unit of the attribute ot the column. The
-                         // unitId is the Id of instance element with the
-                         // basetype AoUnit.
+   T_LONGLONG unitId;    // The unit of the attribute. The unitId is the Id of
+                         // the instance element with the basetype AoUnit.
    AggrFunc   aggregate; // The aggregate function.
 };
 
 /**
 * Basically, joins can only be realized between application elements that
-* are linked via a reference defined in the model.From the definition of
+* are linked via a reference defined in the model. From the definition of
 * attributes or application elements, the references for the joins are
 * determined. It is also taken into account that the application elements
 * involved are not linked directly. However, there must be an unambiguous
@@ -793,10 +782,14 @@ struct SelAIDNameUnitId {
 * established.
 */
 struct JoinDef {
-   T_LONGLONG fromAID;
-   T_LONGLONG toAID;
-   Name       refName;
-   JoinType   joiningType;
+   T_LONGLONG fromAID;     // The application element Id of the source
+                           // element.
+   T_LONGLONG toAID;       // The application element ID of the target
+                           // element.
+   Name       refName;     // Name of the application relation that relates
+                           // the elements which are to join.
+   JoinType   joiningType; // The type of the join: inner or outer join on
+                           // destination AID.
 };
 
 /**
@@ -827,7 +820,7 @@ struct EnumerationAttributeStructure {
 * The structure with the items of the enumeration.
 */
 struct EnumerationItemStructure {
-   T_LONG   index;    // The index of the enuemration item.
+   T_LONG   index;    // The index of the enumeration item.
    T_STRING itemName; // The name of the item.
 };
 
@@ -859,41 +852,31 @@ typedef sequence<ApplicationRelationInstanceElementSeq> ApplicationRelationInsta
 * at the interface ApplicationElement.
 */
 struct ApplElem {
-   T_LONGLONG       aid;        // The application element id. The id is given
-                                // also with the method getId() at the
-                                // interface ApplicationElement.     At the
-                                // RPC API this information was stored in the
-                                // field aiAId of the structure ApplInfSeq and
-                                // the request AOP_GetApplInf.
-   Name             beName;     // The base element name, all elements have a
-                                // basic element. The same name is returned by
-                                // the methods getType() of the BaseElement
-                                // interface. The base element is given with
-                                // the method getBaseElement() at the
-                                // interface ApplicationElement.     At the
-                                // RPC API this information was not delivered
-                                // but the corresponding Id of the base
-                                // element was stored in the field aiBId of
-                                // the structure ApplInfSeq and the request
-                                // AOP_GetApplInf.
+   T_LONGLONG       aid;        // The application element id. The id is also
+                                // returned by the method getId() of the
+                                // interface ApplicationElement.
+   Name             beName;     // The base element name, all application
+                                // elements have a basic element. The same
+                                // name is returned by the methods getType()
+                                // of the BaseElement interface. The base
+                                // element is returned by the method
+                                // getBaseElement() of the interface
+                                // ApplicationElement.
    Name             aeName;     // The application element name. The name is
-                                // given also with the method getName() at the
-                                // interface ApplicationElement.     At the
-                                // RPC API this information was stored in the
-                                // field aiName of the structure ApplInfSeq
-                                // and the request AOP_GetApplInf.
-   ApplAttrSequence attributes; // The attributes of application element. The
-                                // attributes are given with the method
+                                // also returned by the method getName() of
+                                // the interface ApplicationElement.
+   ApplAttrSequence attributes; // The attributes of an application element.
+                                // The attributes are returned by the method
                                 // getAttributes() of the interface
                                 // ApplicationElement. There are no relations
-                                // given in the this sequence.
+                                // included in the this sequence.
 };
 
 /**
-* The structure with the enumeration and there items.
+* The structure with the enumeration and its items.
 */
 struct EnumerationStructure {
-   T_STRING                         enumName; // The name of the enueration.
+   T_STRING                         enumName; // The name of the enumeration.
    EnumerationItemStructureSequence items;    // The items of the enumeration.
 };
 
@@ -1005,11 +988,8 @@ struct TS_ValueSeq {
 
 /**
 * Application structure values. All values of the entire application
-* structure are stored in this structure and loaded to the Client on
-* request. 
-* 
-* At the RPC API this information delivered by the request AOP_GetApplInf
-* and AOP_GetAttr for each application element.
+* structure are stored in this structure and transfered to the Client on
+* request.
 */
 struct ApplicationStructureValue {
    ApplElemSequence applElems; // The list of application elements.
@@ -1017,9 +997,9 @@ struct ApplicationStructureValue {
                                // structure. The list of ApplRel's contains
                                // distinct entries for relations and their
                                // inverses. The field invName contains the
-                               // partner relation.  Both relation, the normal
-                               // and the inverse relation are given in the
-                               // sequence.
+                               // inverse relation.  Both relations, the
+                               // normal and the inverse relation are given in
+                               // the sequence.
 };
 
 /**
@@ -1037,19 +1017,19 @@ struct NameValueSeqUnit {
 struct AIDNameValueUnitId {
    AIDName    attr;   // The attribute  of the application element (aid,
                       // name).
-   T_LONGLONG unitId; // The unit of the attribute ot the column. The unitId
-                      // is the Id of instance element with the basetype
+   T_LONGLONG unitId; // The unit of the attribute or the column. The unitId
+                      // is the Id of the instance element with the basetype
                       // AoUnit.
    TS_Value   values; // The attribute values with value flags.
 };
 
 /**
-* AID - Name - Value - UnitId quartet. Multiple values for on attribute.
+* AID - Name - Value - UnitId quartet. Multiple values for one attribute.
 */
 struct AIDNameValueSeqUnitId {
    AIDName     attr;   // The attribute  of the application element (aid,
                        // name).
-   T_LONGLONG  unitId; // The unit of the attribute ot the column. The unitId
+   T_LONGLONG  unitId; // The unit of the attribute or the column. The unitId
                        // is the Id of instance element with the basetype
                        // AoUnit.
    TS_ValueSeq values; // The column values with value flags.
@@ -1077,9 +1057,9 @@ struct SelValue {
 };
 
 /**
-* The ASAM ODS name-value-unitid tuple structure. This structure is
+* The ASAM ODS NameValueUnitId tuple structure. This structure is
 * identical with the NameValueUnit, except the unit is given as an Id
-* insead of a string.
+* instead of a string.
 */
 struct NameValueUnitId {
    Name       valName; // Attribute name or measured quantity name.
@@ -1127,7 +1107,7 @@ struct NameValue {
 /**
 * The ASAM ODS name-value-unit tuple structure. This structure is
 * identical with the NameValueUnitId, except the unit is given as a
-* string insead of an Id.
+* string instead of an Id.
 */
 struct NameValueUnit {
    Name     valName; // Attribute name or measured quantity name.
@@ -1152,7 +1132,7 @@ struct AttrResultSet {
                                        // 'ApplElemAccess'.
    NameValueUnitIdIterator rest;       // The rest of the results. The
                                        // iterator provides access to the
-                                       // conseccutive
+                                       // consecutive
                                        // NameValueSeqUnitId-packages of the
                                        // result set.
 };
@@ -1169,7 +1149,7 @@ struct AttrResultSet {
 * attribute is specified by the application element and the name of the
 * attribute (AIDName). The conditions are defined in the enumeration
 * SelOPCode. The values are given in the TS_Value or TS_Union structure.
-* If we like an Unit indepedent condition we needed to define the Unit at
+* If we like an Unit indepedent condition we need to define the Unit at
 * the attribute, use AIDNameUnitId instead of AIDName, the server has to
 * convert the value to the proper attribute value. The attribute search
 * condition can be combined by operations defined in the enumeration
@@ -1207,32 +1187,14 @@ struct AttrResultSet {
 struct QueryStructure {
    AIDNameUnitIdSequence anuSeq;  // The sequence of attributes to be
                                   // reported. A pattern is accepted for the
-                                  // attribute name.    At the RPC API this
-                                  // information was stored in the fields
-                                  // applId and nuSeq of the structure
-                                  // GetValReq and the request AOP_GetVal. At
-                                  // the RPC API only one application element
-                                  // could be selected.
-   SelValueSequence      condSeq; // The query condition sequence.     At the
-                                  // RPC API this information was stored in
-                                  // the field nsSeq of the structure
-                                  // GetValReq and the request AOP_GetVal.
-   SelOperatorSequence   operSeq; // The query condition operator sequence.   
-                                  //  At the RPC API was the operator always
-                                  // 'AND'.
+                                  // attribute name.
+   SelValueSequence      condSeq; // The query condition sequence.
+   SelOperatorSequence   operSeq; // The query condition operator sequence.
    ElemId                relInst; // The related instance. (aid == 0 && iid ==
-                                  // 0) means no related instance specified.  
-                                  //         At the RPC API this information
-                                  // was stored in the field elemId of the
-                                  // structure GetValReq and the request
-                                  // AOP_GetVal.
-   Name                  relName; // Name of the relation.     At the RPC API
-                                  // this information was stored in the field
-                                  // refName of the structure GetValReq and
-                                  // the request AOP_GetVal.
+                                  // 0) means no related instance specified.
+   Name                  relName; // Name of the relation.
    SelOrderSequence      orderBy; // The order by sequence. The order of the
-                                  // result set.     At the RPC API it was not
-                                  // possiable to set the order.
+                                  // result set.
 };
 
 /**
@@ -1250,23 +1212,12 @@ struct ElemResultSetExt {
 struct QueryStructureExt {
    SelAIDNameUnitIdSequence anuSeq;  // The sequence of attributes to be
                                      // reported. A pattern is accepted for
-                                     // the attribute name.    At the RPC API
-                                     // this information was stored in the
-                                     // fields applId and nuSeq of the
-                                     // structure GetValReq and the request
-                                     // AOP_GetVal. At the RPC API only one
-                                     // application element could be selected.
-   SelItemSequence          condSeq; // The query condition sequence.     At
-                                     // the RPC API this information was
-                                     // stored in the field nsSeq of the
-                                     // structure GetValReq and the request
-                                     // AOP_GetVal.
-   JoinDefSequence          joinSeq; // Defined the join between the
+                                     // the attribute name.
+   SelItemSequence          condSeq; // The query condition sequence.
+   JoinDefSequence          joinSeq; // Defines the join between the
                                      // application elements.
    SelOrderSequence         orderBy; // The order by sequence. The order of
-                                     // the result set.     At the RPC API
-                                     // interface it was not possiable to set
-                                     // the order.
+                                     // the result set.
    AIDNameSequence          groupBy; // Defines the grouping attributes for a
                                      // request, necessary if aggregate
                                      // functions are defined in the
@@ -1288,7 +1239,7 @@ struct ElemResultSet {
    AttrResultSetSequence attrValues; // The selected attributes of the
                                      // element. The number of values in each
                                      // AttrResultSet are identical, the
-                                     // attributes of one element has always
+                                     // attributes of one element have always
                                      // the position in the AttrResultSet.
 };
 
@@ -1299,8 +1250,8 @@ struct ElemResultSet {
 struct ResultSetExt {
    ElemResultSetExtSequence    firstElems; // The sequence of the first
                                            // how_many result elements.
-   ElemResultSetExtSeqIterator restElems;  // the iterator, which allows to
-                                           // iterate above the result values,
+   ElemResultSetExtSeqIterator restElems;  // The iterator, which allows to
+                                           // iterate over the result values,
                                            // the attributes of one instance
                                            // each iteration.
 };
@@ -1320,7 +1271,7 @@ interface ResultType {
 
 /**
 * The lock mode of the server. The lock mode tells the way the server
-* will lock the objects as soon a modification of the server will be
+* will lock the objects as soon as a modification of the server will be
 * done.
 */
 interface LockMode {
@@ -1463,20 +1414,20 @@ interface AoFactory {
    *    AO_OPEN_MODE_NOT_SUPPORTED
    *    AO_SESSION_LIMIT_REACHED
    *
-   * @param  auth  A string that may contain authentication information.
+   * @param  auth  A string containing the authentication information.
    *               The following values are currently supported:
    *                  USER
    *                  PASSWORD
    *                  CREATE_COSESSION_ALLOWED
    *                  FOR_USER
-   *                The values may be specified in any order and have to
+   *               The values may be specified in any order and have to
    *               be separated by comma.
    *               The variable CREATE_COSESSION_ALLOWED
    *                       Value (DT_STRING) TRUE or FALSE
    *                       Default for CREATE_COSESSION_ALLOWED =
    *               FALSE.
-   *                      The variable CREATE_COSESSION_ALLOWED is a
-   *               read-only variable in the session.
+   *               The variable CREATE_COSESSION_ALLOWED is a read-only
+   *               variable in the session.
    *               The variable FOR_USER is the name of the user for
    *               which this session shall be created. If this value is
    *               given, USER must be a superuser. Otherwise the
@@ -1492,10 +1443,11 @@ interface AoFactory {
       raises (AoException);
 
    /** (2006)
-   * Establish a new session to an ASAM ODS server. The server normally
-   * checks the activity of the session and will close the session after
-   * a time period of inactivity. The authentication is a list of
-   * NameValue which is an argument of the method.
+   * Establish a new session to an ASAM ODS server, using an
+   * authentication string as set of name-value-pairs. The server
+   * normally checks the activity of the session and will close the
+   * session after a time period of inactivity. The authentication is a
+   * list of NameValue which is an argument of the method.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -1508,13 +1460,13 @@ interface AoFactory {
    *    AO_OPEN_MODE_NOT_SUPPORTED
    *    AO_SESSION_LIMIT_REACHED
    *
-   * @param  auth  A list of NameValue with the parameters for the
-   *               authentication, the parameter is stored in the Name of
-   *               the NameValue and the value of the aprameter is stored
-   *               in the Value. Each entry in the list represent exact
-   *               one parameter. With this argument the values of the
-   *               parameters can contain also comma because these are
-   *               not used as separater.
+   * @param  auth  The authentication string as set of pairs (NameValue)
+   *               consisting of a name and a value each. The name may be
+   *               the name of any context valiable, the value may be any
+   *               allowed value for that context variable.
+   *               
+   *               With this argument the values of NameValue can contain
+   *               also comma because these are not used as separator.
    *
    * @return  The new created ASAM ODS session.
    */
@@ -1768,11 +1720,11 @@ interface AoSession {
    /** (3013)
    * Start a transaction on the physical storage system (e.g. database
    * system). Only when a transaction is started it is allowed to create
-   * or modify instances or measurement data. The changes get permanent
-   * with a commit of the transaction or will be lost with an abort of
-   * the transaction. If the session is closed the transaction will be
-   * committed automatically. If a transaction is already active an
-   * exception is thrown.
+   * or modify instances or measurement data. The changes will become
+   * permanent with a commit of the transaction or will be lost with an
+   * abort of the transaction. If the session is closed the transaction
+   * will be committed automatically. If a transaction is already active
+   * an exception is thrown.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -1788,7 +1740,7 @@ interface AoSession {
       raises (AoException);
 
    /** (3014)
-   * Make the changes permanent.
+   * Make the pending changes of the current transaction permanent.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -1804,9 +1756,10 @@ interface AoSession {
       raises (AoException);
 
    /** (3015)
-   * Every new created instance will set its initial rights to <acl> .
-   * This method overrides the default-methods for applying initial
-   * rights. The initial rights are only valid for the current session.
+   * Every new created session instance will set its initial rights to
+   * <acl> . This method overrides the default-methods for applying
+   * initial rights. The initial rights are only valid for the current
+   * session.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -1999,7 +1952,8 @@ interface AoSession {
       raises (AoException);
 
    /** (3023)
-   * Create a QueryEvaluator object.
+   * Create a QueryEvaluator object. The object supports the query
+   * execution in synchronous and asynchronous mode.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2037,17 +1991,18 @@ interface AoSession {
       raises (AoException);
 
    /** (3025)
-   * Create a co session. The co session session is the same session as
-   * the original session was at login time.
-   * The co session has no relation to the original session except that
+   * Create a co-session. The co-session is the same session as the
+   * original session was at login time.
+   * The co-session has no relation to the original session except that
    * the same authentication is used.
-   * A client application with components can give all components his own
+   * A client application with components can give all components its own
    * session to the ASAM ODS Server. So the component can close the
    * session when it is ready, the component can start his own
    * transaction without any conflict with other components. 
-   * Only when the variable CREATE_COSESSION_ALLOWED=TRUE is given in the
-   * 'auth' parameter of the method newSession at the interface AoFactory
-   * an new session will be created otherwise the exception
+   * Only when the context variable CREATE_COSESSION_ALLOWED has been set
+   * to TRUE  in the 'auth' parameter of the method newSession or method
+   * newSessionNameValue at the interface AoFactory, a new session will
+   * be created when calling createSession, otherwise the exception
    * AO_ACCESS_DENIED is thrown.
    *
    * @throws AoException
@@ -2064,14 +2019,13 @@ interface AoSession {
       raises (AoException);
 
    /** (3026)
-   * Returns the instance element of the user logged in, this is the
+   * Returns the instance element of the user logged in. This is the
    * instance element from the application element derived from AoUser,
-   * with the name given in s given in the 'auth' parameter of the method
-   * newSession at the interface AoFactory (variable USER). 
+   * with the name given in the 'auth' parameter of the method newSession
+   * at the interface AoFactory (variable USER). 
    * 
    * When the client settings of the user are stored in the ASAM ODS
-   * application model, this methods helps the client  to get his
-   * settings.
+   * application model, this method helps the client to get its settings.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2086,8 +2040,19 @@ interface AoSession {
       raises (AoException);
 
    /** (3027)
-   * Get the list with the attributes of all elements and the enumeration
-   * name which has an enumeration.
+   * Get a list of all attributes of all elements in the application
+   * model which are of enumeration type. Each entry of this list
+   * provides information about
+   * - the name of the application attribute that has an enumeration data
+   * type
+   * - the id of the application element to which this application
+   * attribute belongs
+   * - the name of the enumerastion whose items may be selected as value
+   * for the application attribute.
+   * The method also returns based application attributes (where the
+   * enumeration is already specified by ASAM ODS).
+   * In the (unusual) case the application model does not show any
+   * enumerastion type attribute, an empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2104,8 +2069,13 @@ interface AoSession {
       raises (AoException);
 
    /** (3028)
-   * Get all enumerations used in the application model. The enumerations
-   * and all items of the enumerations are returned to the client.
+   * Get all enumerations used in the application model. A list of all
+   * enumerations available in the application model is returned to the
+   * client. This list contains for each enumeration its name and all of
+   * its items (including item index and item name).
+   * The method also returns all enumerations of the ODS specification
+   * (which are specified by ASAM ODS), no matter whether these
+   * enumerations are used in any attribute of the application model.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2121,7 +2091,7 @@ interface AoSession {
       raises (AoException);
 
    /** (3029)
-   * Returns the Id of the session, the ODS server will give each session
+   * Returns the Id of the session. The ODS server will give each session
    * an unique Id. The ODS server returns this Id to the client.
    *
    * @throws AoException
@@ -2178,8 +2148,8 @@ interface ApplicationAttribute {
       raises (AoException);
 
    /** (4003)
-   * Get the maximum allowed length of the value of the application
-   * attribute.
+   * Get the maximum allowed string length of the value of the
+   * application attribute.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2189,7 +2159,8 @@ interface ApplicationAttribute {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The maximum allowed length of the application attribute.
+   * @return  The maximum allowed string length of the application
+   *          attribute.
    */
    T_LONG getLength()
       raises (AoException);
@@ -2244,7 +2215,9 @@ interface ApplicationAttribute {
       raises (AoException);
 
    /** (4007)
-   * Get the unique flag of the application attribute.
+   * Get the unique flag of the application attribute. This method can be
+   * used to check whether the attributes values of the instances must
+   * have unique values.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2421,7 +2394,7 @@ interface ApplicationAttribute {
    * AO_IS_BASE_ATTRIBUTE.
    * 
    * If the unique flag is set to TRUE the obligatory flag is also set to
-   * TRUE. The previous values of both flag do not matter in this case.
+   * TRUE. The previous values of both flags do not matter in this case.
    * Setting the unique flag to FALSE does not affect the obligatory
    * flag.
    * 
@@ -2480,10 +2453,9 @@ interface ApplicationAttribute {
    * 
    * This method provides only a hint to a database server in the design
    * phase which size the data entries may have. The length is only
-   * relevant for is ignored for all attribute values with the data type
-   * other datatypes than DT_STRING, DS_STRING, DT_DATE, DS_DATE, all
-   * components of DT_EXTERNALREFERENCE and of DS_EXTERNALREFERENCE, and
-   * the header portion of DT_BLOB.
+   * relevant for attribute values with the data type DT_STRING,
+   * DS_STRING, DT_DATE, DS_DATE, all components of DT_EXTERNALREFERENCE
+   * and of DS_EXTERNALREFERENCE, and the header portion of DT_BLOB.
    * 
    * For performance and flexibility reasons this set-method should be
    * used before the new application attribute is committed the first
@@ -2576,9 +2548,9 @@ interface ApplicationAttribute {
    * 
    * If the unit of an attribute is set the unit is constant. If the
    * value of the attribute has another unit the value is recalculated to
-   * the unit of the application attribute. If there is no unit at the
-   * application attribute the unit at the attribute value is stored and
-   * reported on request at the instance.
+   * the unit of the application attribute. If there is no unit
+   * associated with the application attribute the unit at the attribute
+   * value is stored and reported on request at the instance.
    * 
    * For performance and flexibility reasons this set-method should be
    * used before the new application attribute is committed the first
@@ -2665,7 +2637,7 @@ interface ApplicationAttribute {
    *    AO_SESSION_NOT_ACTIVE
    *
    * @return  The access control list entries of the given application
-   *          element.
+   *          attribute.
    */
    ACLSequence getRights()
       raises (AoException);
@@ -2792,8 +2764,9 @@ interface ApplicationAttribute {
       raises (AoException);
 
    /** (4023)
-   * Set whether the attribute becomes an unit or not. A call to the
-   * method setUnit() will automatically set the withUnit(TRUE).
+   * Specifies whether the attribute will have an unit or not. A call to
+   * the method setUnit() will automatically set the withUnit flag to
+   * TRUE.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2805,7 +2778,8 @@ interface ApplicationAttribute {
    *    AO_SESSION_NOT_ACTIVE
    *    AO_TRANSACTION_NOT_ACTIVE
    *
-   * @param  withUnit  The flag if the attribute becomes an unit.
+   * @param  withUnit  TRUE, if the attribute will have an unit, FALSE
+   *                   otherwise.
    */
    void withUnit(
       in T_BOOLEAN withUnit)
@@ -2813,8 +2787,8 @@ interface ApplicationAttribute {
 
    /** (4024)
    * Deprecated, not used any more since ASAM ODS 5.2. 
-   * Has the attribute a value flag. If this flag is set, all the
-   * attributes of the instances derived from this attribute will has a
+   * Has the attribute a value flag? If this flag is set, all the
+   * attributes of the instances derived from this attribute will have a
    * value flag. If this flag is not set the flag in the TS_Value
    * structure can be ignored.
    *
@@ -2827,15 +2801,16 @@ interface ApplicationAttribute {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The flag if the attribute has a value flag.
+   * @return  TRUE if the attribute has a value flag, selse FALSE.
    */
    T_BOOLEAN hasValueFlag()
       raises (AoException);
 
    /** (4025)
    * Deprecated, not used any more since ASAM ODS 5.2. 
-   * Set whether the attribute becomes a value flag or not. If this flag
-   * isn't set the flag of the TS_Value will be ignored by the server.
+   * Specifies whether the attribute has a value flag or not. If this
+   * flag isn't set the flag of the TS_Value will be ignored by the
+   * server.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -2847,8 +2822,8 @@ interface ApplicationAttribute {
    *    AO_SESSION_NOT_ACTIVE
    *    AO_TRANSACTION_NOT_ACTIVE
    *
-   * @param  withValueFlag  The flag if the attribute becomes a value
-   *                        flag.
+   * @param  withValueFlag  TRUE flag if the attribute becomes a value
+   *                        flag, else FALSE.
    */
    void withValueFlag(
       in T_BOOLEAN withValueFlag)
@@ -2887,7 +2862,7 @@ interface ApplicationElement {
    * of the existing instances of the new attribute are set to
    * undefined.
    * 
-   * The exception AO_DUPLICATE_NAME name occurs if there is already
+   * The exception AO_DUPLICATE_NAME is thrown if there is already
    * another application attribute with the name "AUTOGEN".
    *
    * @throws AoException
@@ -2906,7 +2881,7 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5002)
-   * Create an instance of the application element. 
+   * Create an instance of the application element.
    * 
    * It is allowed to create an instance outside a transaction but it is
    * recommended to activate a transaction.
@@ -2946,7 +2921,7 @@ interface ApplicationElement {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The related application elements.
+   * @return  The list with the related application elements.
    */
    ApplicationElementSequence getAllRelatedElements()
       raises (AoException);
@@ -2965,7 +2940,8 @@ interface ApplicationElement {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The application relations of the application element.
+   * @return  The list with the application relations of the application
+   *          element.
    */
    ApplicationRelationSequence getAllRelations()
       raises (AoException);
@@ -2973,7 +2949,9 @@ interface ApplicationElement {
    /** (5005)
    * Get the application attribute of an application element which is
    * inherited from the base attribute with the given name. The base name
-   * is case insensitive and may not contain wildcard characters. 
+   * of the attribute is case insensitive (the base model itself is case
+   * insensitive; ID, Id, id are treated as the same items). The calling
+   * parameter may not contain wildcard characters. 
    * 
    * Note: The base model is case blind,  e.g. Id, ID and id is all the
    * same base attribute.
@@ -3000,9 +2978,11 @@ interface ApplicationElement {
    * the given name. The name is case sensitive and may not contain
    * wildcard characters.
    * 
-   * Note: The application model is case sensitive, e.g. Id and ID are
-   * different application attributes, don't use this misleading
-   * attribute name.
+   * Note: The application model is (in contrary to the base model) case
+   * sensitive, e.g. ID, Id and id are three different items.
+   * 
+   * Note: In the application mnodel ID and Id are different application
+   * attributes. It is best not to use such misleading attribute names.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -3097,11 +3077,11 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5011)
-   * Get the instance element specified by the given name. If the name of
-   * the instance is not unique an exception is thrown.
+   * Get the instance element specified by the given name. If the
+   * instance name is not unique an exception is thrown.
    * 
    * This is a convenience method for instance elements with unique
-   * names. If there are duplicate names for instance use the method
+   * names. If there are duplicate names for instances use the method
    * getInstances instead and specify the requested name as pattern
    * parameter.
    *
@@ -3124,8 +3104,8 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5012)
-   * Get the instances whose names match the pattern. The pattern is case
-   * sensitive and may contain wildcard characters.
+   * Get the instances whose names match with the pattern. The pattern is
+   * case sensitive and may contain wildcard characters.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -3184,7 +3164,7 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5015)
-   * Get application relations of the requested type connected from this
+   * Get application relations of the requested type connected with this
    * application element. The inverse relations are not returned.
    *
    * @throws AoException
@@ -3245,8 +3225,8 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5018)
-   * Get the names of the instances whose names match the pattern. The
-   * pattern is case sensitive and may contain wildcard characters.
+   * Get the names of the instances whose names match with the pattern.
+   * The pattern is case sensitive and may contain wildcard characters.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -3349,7 +3329,7 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5022)
-   * Set the base element of the application element. 
+   * Set or modify the base element of the application element. 
    * 
    * It is allowed to modify the application element outside a
    * transaction but it is recommended to activate a transaction.
@@ -3408,10 +3388,11 @@ interface ApplicationElement {
    /** (5024)
    * The given user group the rights should be set for. <rights> defines
    * the rights to set or to clear. If the parameter <set> is set to
-   * 'set', the rights in <rights> are set all others are cleared. If the
-   * parameter <set> is set to 'add', the rights in <rights> are added to
-   * the existing rights. If the parameter <set> is set to 'remove', the
-   * rights in <rights> are removed from the existing rights.
+   * 'set', the rights in <rights> are set, all others are cleared. If
+   * the parameter <set> is set to 'add', the rights in <rights> are
+   * added to the existing rights. If the parameter <set> is set to
+   * 'remove', the rights in <rights> are removed from the existing
+   * rights.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -3507,9 +3488,9 @@ interface ApplicationElement {
    *                 thus the constant definitions had to be done in an
    *                 interface.
    *
-   * @param  refAid  The Id of referencing application element for which
-   *                 the initial rights will be used. If no refAid is set
-   *                 the initial rights will be used for each new
+   * @param  refAid  The Id of referencing application element to which
+   *                 the initial rights will be applied. If no refAid is
+   *                 set the initial rights will be used for each new
    *                 instance element independent of the application
    *                 element.
    *
@@ -3553,8 +3534,8 @@ interface ApplicationElement {
 
    /** (5029)
    * Get all relations which are used to retrieve the instances to create
-   * the initial rights of the new created instance element. If there are
-   * more then one application relation the initial rights of each
+   * the initial rights of the new created instance element. If there is
+   * more then one application relation, the initial rights of each
    * related instance are 'ored' to the list of the initial rights.
    *
    * @throws AoException
@@ -3650,8 +3631,8 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5033)
-   * Create a list with instances. The attribute are given with the name
-   * of the sequence. The values of the attributes are given in the value
+   * Create a list with instances. The attribute names are given with the
+   * name of the sequence. The attribute values are given in the value
    * sequence. The index in the different value sequences match for one
    * instance element. The index in the instance element sequence of the
    * related instances match for the instance with the same index in the
@@ -3666,7 +3647,6 @@ interface ApplicationElement {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *    AO_TRANSACTION_NOT_ACTIVE
-   *    AO_INVALID_REQUEST
    *
    * @param  attributes  The attributes of the new created instances.
    *
@@ -3681,11 +3661,11 @@ interface ApplicationElement {
       raises (AoException);
 
    /** (5034)
-   * Return the basic application relations derived from the base
-   * relation with the given relation name.
-   * Take care at most elements only one application relation can be
-   * derived from a base relation, there are some well defined
-   * exceptions, so the method can return more then one application
+   * Return the application relations derived from the base relation with
+   * the given relation name.
+   * Please note that at most elements only one application relation can
+   * be derived from a base relation. However there are some well defined
+   * exceptions where this method may return more then one application
    * relation.
    *
    * @throws AoException
@@ -3698,7 +3678,7 @@ interface ApplicationElement {
    *
    * @param  baseRelName  The name of the base relation.
    *
-   * @return  The application relation sequence, if no relation is found
+   * @return  The application relation sequence; if no relation is found
    *          an empty sequence is returned.
    */
    ApplicationRelationSequence getRelationsByBaseName(
@@ -3768,7 +3748,10 @@ interface ApplicationRelation {
       raises (AoException);
 
    /** (6004)
-   * Get the inverse relation range of the application relation.
+   * Get the inverse relation range of the application relation. The
+   * range value describes the allowed number of the relations from one
+   * element to the other element of the relation. The relation range is
+   * defined by a min and a max value.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -3816,7 +3799,10 @@ interface ApplicationRelation {
       raises (AoException);
 
    /** (6007)
-   * Get the relation range of the application relation.
+   * Get the relation range of the application relation. The range value
+   * describes the allowed number of relations from one element to the
+   * other element of the relation. The relation range is defined by a
+   * min and a max value.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -3870,7 +3856,7 @@ interface ApplicationRelation {
    * transaction but it is recommended to activate a transaction.
    * 
    * The relation type and relation range is copied from the base
-   * relation. The previous values get lost.
+   * relation. The previous values will be lost.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -3936,7 +3922,10 @@ interface ApplicationRelation {
       raises (AoException);
 
    /** (6013)
-   * Set the relation range of an application relation. 
+   * Set the inverse relation range of an application relation.  The
+   * range value describes the allowed number of relations from one
+   * element to the other element of the relation. The relation range is
+   * defined by a min and a max value.
    * 
    * It is allowed to modify the application relation outside a
    * transaction but it is recommended to activate a transaction.
@@ -3988,7 +3977,10 @@ interface ApplicationRelation {
       raises (AoException);
 
    /** (6015)
-   * Set the relation range of an application relation. 
+   * Set the relation range of the application relation.  The range value
+   * describes the allowed number of relations from one element to the
+   * other element of the relation. The relation range is defined by a
+   * min and a max value.
    * 
    * It is allowed to modify the application relation outside a
    * transaction but it is recommended to activate a transaction.
@@ -4016,7 +4008,7 @@ interface ApplicationRelation {
       raises (AoException);
 
    /** (6016)
-   * Set the relation type of an application relation. 
+   * Set the relation type of the application relation. 
    * 
    * It is allowed to modify the application relation outside a
    * transaction but it is recommended to activate a transaction.
@@ -4028,13 +4020,14 @@ interface ApplicationRelation {
    * It is only allowed to modify a relation type when no base relation
    * is given, otherwise the exception AO_HAS_BASE_RELATION is thrown.
    * 
-   * It is not allowed to set the relation type FATHER_CHILD, these
+   * It is not allowed to set the relation type FATHER_CHILD. This
    * relation type is reserved for the base model. The two relation types
    * which can be set are  INFO or INHERITANCE. 
    * 
-   * The relationship is set automatic when the relation type is set, the
-   * maximum of the relation range determines the relationship between
-   * the elements of the relation.
+   * The relationship is set automatically when the relation type is set,
+   * the maximum of the relation range determines the relationship
+   * between the elements of the relation, as is described in the
+   * following table:
    * 
    * R.Type      | max R.Range | max inv. R.Range | Relationship         
    *               
@@ -4109,7 +4102,7 @@ interface ApplicationRelation {
       raises (AoException);
 
    /** (6018)
-   * Set the name of an application relation.
+   * Set the inverse name of the application relation.
    * 
    * It is allowed to modify the application relation outside a
    * transaction but it is recommended to activate a transaction.
@@ -4150,7 +4143,7 @@ interface ApplicationStructure {
    * not derived from any base attribute.
    *  - All application elements must have at least the mandatory
    * attributes.
-   *  - Each application elements must be identified by a unique Asam
+   *  - All application elements must be identifyable by a unique Asam
    * path. No "floating" application elements are allowed.
    *  - All relations required by the base model must be present.
    *
@@ -4278,7 +4271,7 @@ interface ApplicationStructure {
       raises (AoException);
 
    /** (7006)
-   * Get the application elements whose names match the pattern. The
+   * Get the application elements whose names match with the pattern. The
    * pattern is case sensitive and may contain wildcard characters.
    *
    * @throws AoException
@@ -4392,8 +4385,9 @@ interface ApplicationStructure {
       raises (AoException);
 
    /** (7011)
-   * Get the names of the application elements that  match the pattern.
-   * The pattern is case sensitive and may contain wildcard characters.
+   * Get the names of the application elements that match with the
+   * pattern. The pattern is case sensitive and may contain wildcard
+   * characters.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -4466,10 +4460,9 @@ interface ApplicationStructure {
    * It is allowed to modify the application model outside a transaction
    * but it is recommended to activate a transaction.
    * 
-   *   - Only allowed:
-   *       - if the application element is empty
-   *         (has no instances).
-   *       - no relations with other application elements.
+   *   - Only allowed if the application element:
+   *       - has no instances.
+   *       - has no relations with other application elements.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -4518,7 +4511,7 @@ interface ApplicationStructure {
       raises (AoException);
 
    /** (7016)
-   * Get the instance elements specified by the element id.
+   * Get the instance elements specified by the sequence of element ids.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -4530,9 +4523,9 @@ interface ApplicationStructure {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @param  ieIds  The sequence with the element id.
+   * @param  ieIds  The sequence with the element ids.
    *
-   * @return  The requested instance element sequence.
+   * @return  The sequence with the requested instance elements.
    */
    InstanceElementSequence getInstancesById(
       in ElemIdSequence ieIds)
@@ -4656,7 +4649,6 @@ interface ApplicationStructure {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *    AO_TRANSACTION_NOT_ACTIVE
-   *    AO_INVALID_REQUEST
    *
    * @param  applRel  The application relation.
    *
@@ -4727,7 +4719,9 @@ interface BaseAttribute {
       raises (AoException);
 
    /** (8004)
-   * Get the unique flag of the base attribute.
+   * Get the unique flag of the base attribute. All instances with this
+   * base attribute must have unique attribute values if the unique flag
+   * is TRUE.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -4800,7 +4794,7 @@ interface BaseElement {
       raises (AoException);
 
    /** (9002)
-   * Get attributes of the base element.
+   * Get attributes of the base element matching with the given pattern.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -4865,8 +4859,8 @@ interface BaseElement {
 
    /** (9005)
    * Get the type of the base element. The type of the base element is
-   * identical with the name of the base element. The type of the base
-   * element is a string.
+   * identical with the name of the base element, e.g. AoTest,
+   * AoMeasurement, ..etc. . The data type of BaseType is a string.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -4900,7 +4894,8 @@ interface BaseElement {
       raises (AoException);
 
    /** (9007)
-   * Get attribute names of the base element.
+   * Get all attribute names of the base element matching with the given
+   * atrribute name pattern.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5103,7 +5098,7 @@ interface BaseStructure {
 
    /** (11001)
    * Get the base element that matches the requested type. The type of a
-   * base element is identical with the name of the base element.
+   * base element is identical with the base element name.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5148,7 +5143,7 @@ interface BaseStructure {
    /** (11003)
    * Get the base relation between two base elements. The base relation
    * is given from the first element (parameter elem1) to the second
-   * element (parameter elem2), the inverse relation is not given.
+   * element (parameter elem2), the inverse relation is not returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5195,8 +5190,8 @@ interface BaseStructure {
       raises (AoException);
 
    /** (11005)
-   * Get the version of the base model. The version of the base model is
-   * the version of the ASAM ODS base model.
+   * Get the version of the base model as string. The version of the base
+   * model is the version of the ASAM ODS base model.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5257,11 +5252,11 @@ interface BaseStructure {
       raises (AoException);
 
    /** (11008)
-   * Get the base relations between two base elements. The base relation
-   * is given from the first element (parameter elem1) to the second
-   * element (parameter elem2), the inverse relation is not given.
-   * When there are no base relation between the two elements the server
-   * will throw the exception AO_NOT_FOUND
+   * Get the base relations between two base elements. The base relations
+   * are given from the first element (parameter elem1) to the second
+   * element (parameter elem2), the inverse relation is not returned.
+   * In case there are no base relations between the two elements the
+   * server will throw the exception AO_NOT_FOUND
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5348,7 +5343,7 @@ interface Blob {
    *
    * @param  length  The number of bytes requested from the blob.
    *
-   * @return  The request part of the blob data.
+   * @return  The requested part of the blob data.
    */
    S_BYTE get(
       in T_LONG offset,
@@ -5430,10 +5425,10 @@ interface Blob {
       raises (AoException);
 
    /** (12008)
-   * Destroy the object on the server. The destructor of the client, so
-   * the server knows this object is not used anymore by the client.
-   * Access to this object after the destroy method will lead to an
-   * exception.
+   * Destroy the object on the server. This method is used to tell the
+   * server that the blob object is not used any more by the client.
+   * Access to this object after the invokation of the destroy method
+   * will lead to an exception.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5465,8 +5460,8 @@ interface Column {
    /** (13001)
    * Get the formula of the column.
    * 
-   * There is no formula defined in ASAM ODS, so there is nothing to
-   * return.
+   * There is currently no specification of formula within ASAM ODS, the
+   * method should not be used. It will return an empty string if used.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5476,7 +5471,7 @@ interface Column {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The formula of the column.
+   * @return  The formula of the column as string.
    */
    T_STRING getFormula()
       raises (AoException);
@@ -5516,14 +5511,14 @@ interface Column {
    /** (13004)
    * Get the unit of the column.
    * 
-   * The method returns the unit of the values according the current
+   * The method returns the unit of the values according to the current
    * setting. Initially within a session this is the unit as given in the
-   * storage. After setUnit() is called, the unit as specified by
-   * setUnit() will be
-   * returned for the particular column. Thus the unit returned will be
-   * retrieved by the ODS server according to following strategy:
+   * storage. After setUnit() is called for a particular column, the unit
+   * as specified by setUnit() will be
+   * returned for this column. Thus the unit returned will be retrieved
+   * by the ODS server according to the following strategy:
    * 1) if a unit has already been set for the paricular column by
-   * setUnit(..) prior; that unit is returned, else
+   * setUnit(..) before, that unit is returned, else
    * 2) if the related measurement quantity has a unit (i.e. it has a
    * relation derived from the base relation 'unit' referencing an
    * instance of base type AoUnit), that unit's name is returned, else
@@ -5555,7 +5550,8 @@ interface Column {
    * It is allowed to modify the column outside a transaction but it is
    * recommended to activate a transaction.
    * 
-   * There is no formula in ASAM ODS so don't try to set the formula.
+   * As there is currently no specification of a formula within ASAM ODS,
+   * the method should not be used.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5575,14 +5571,21 @@ interface Column {
    /** (13006)
    * Set the unit of the column. This is only a temporary unit for
    * getting the values of a column. This unit is not stored in the
-   * storage. 
-   * When an empty string is given the unit is returned to the original
-   * setting.
-   * When the value matrix where the column belongs to is in the STORAGE
-   * mode this method have no influence on the values returned from the
-   * value matrix.
-   * To change the unit permanent in the storage the relation at the
-   * measurement quantity must be changed by the client.
+   * physical storage; however it remains effective unti the end of the
+   * current session or until the next setUnit() invokation.
+   * 
+   * If the value matrix mode of the value matrix to which the column
+   * belongs is 'STORAGE', this method has no influence on the values
+   * returned from the value matrix.
+   * 
+   * If an empty string is provided with this method the unit for
+   * subsequent requests of column values is reset to the unit stored in
+   * the physical storage (related to the correspondig measurement
+   * quantity).
+   * 
+   * If a permanent modification of the unit is desired, the relation at
+   * the correspondig  measurement quantity needs to be changed by the
+   * client.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5619,7 +5622,7 @@ interface Column {
    /** (13008)
    * Deprecated, solved by NVH Application model.
    * 
-   * Is the column an scaling column.
+   * Is the column a scaling column.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5636,7 +5639,8 @@ interface Column {
       raises (AoException);
 
    /** (13009)
-   * Set the column as an independent column.
+   * Set a new value (TRUE or FALSE) to the independent flag of the
+   * column.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5657,7 +5661,7 @@ interface Column {
    /** (13010)
    * Deprecated, solved by NVH Application model.
    * 
-   * Set the column to a scaling column.
+   * Set a new value to the scaling flag of the column.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5677,12 +5681,9 @@ interface Column {
 
    /** (13011)
    * Get the data type of the column.
-   * The data type of the measurement quantity is always returned,
-   * independent of the mode of the values matrix where the column
-   * belongs to neither the sequence representation of the column.
-   * 
    * This method always returns the data type of the measurement quantity
-   * to which this local column belongs, independent of 
+   * to which this local column belongs, independent of
+   * 
    * - the value matrix mode of the value matrices this local column
    * belongs to
    * - the sequence representation of this local column
@@ -5701,10 +5702,9 @@ interface Column {
       raises (AoException);
 
    /** (13012)
-   * Destroy the object on the server. The destructor of the client so
-   * the server knows this object is not used anymore by the client.
-   * Access to this object after the destroy method will lead to an
-   * exception.
+   * Destroy the object on the server. This method is used to tell the
+   * server that object is not used anymore by the client. Access to this
+   * object after the destroy method will lead to an exception.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5733,8 +5733,8 @@ interface Column {
    *    AO_SESSION_NOT_ACTIVE
    *
    * @return  The sequence representation of the column. This is the
-   *          integer value according the enumeration seq_rep_enum of the
-   *          base model.
+   *          integer value according to the enumeration seq_rep_enum of
+   *          the base model.
    */
    T_LONG getSequenceRepresentation()
       raises (AoException);
@@ -5764,15 +5764,16 @@ interface Column {
    /** (13015)
    * Get the generation parameters of the Column. 
    * 
-   * If no generation parameters exist an empty sequence is returned, its
-   * type is double, its length is 0.
+   * If no generation parameters exist, an empty sequence is returned,
+   * its type is double, its length is 0.
    * When the value matrix to which the column belongs is in CALCULATED
    * mode an empty sequence is returned, its type is double, its length
    * is 0.
    * 
-   * The data type of the generation parameter for the implicit columns
-   * is the data type given at the measurement quantity. The data type of
-   * the generation parameters for raw data is always T_DOUBLE.
+   * The data type of the generation parameters for the implicit columns
+   * is the data type given at the corresponding measurement quantity.
+   * The data type of the generation parameters for raw data is always
+   * T_DOUBLE.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5790,10 +5791,10 @@ interface Column {
    /** (13016)
    * Set the generation parameters.
    * 
-   * The data type of the generation parameter for the implicit columns
-   * must be the data type given at the measurement quantity. The data
-   * type of the generation parameters for raw data must be always
-   * T_DOUBLE.
+   * The data type of the generation parameters for the implicit columns
+   * must be the data type given at the corresponding measurement
+   * quantity. The data type of the generation parameters for raw data
+   * must be always T_DOUBLE.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5812,12 +5813,13 @@ interface Column {
       raises (AoException);
 
    /** (13017)
-   * Get the data type of the raw values.
+   * Get the data type of the raw values (which is the value of the
+   * attribute derived from the base attribute 'raw_datatype').
    * 
-   * When the column has no raw values the data type of the measurement
-   * quantity is returned. 
-   * When the value matrix to which the column belongs is in CALCULATED
-   * mode the data type of the measurement quantity returned.
+   * If the local column does not contain raw values, the data type of
+   * the corresponding measurement quantity is returned. Also, if the
+   * value matrix mode of the value matrix to which the column belongs is
+   * 'CALCULATED', the data type of the measurement quantity returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5836,7 +5838,7 @@ interface Column {
 
 /**
 * The ASAM ODS instance element interface. It is allowed to modify the
-* instances outside a transaction but recommended to activate a
+* instances outside a transaction but it is recommended to activate a
 * transaction before the instances are modified. The modifications to
 * instances get permanent when the transaction is committed.
 */
@@ -5850,6 +5852,10 @@ interface InstanceElement {
    * 
    * It is allowed to add an instance attribute outside a transaction but
    * it is recommended to activate a transaction.
+   * 
+   * Note: As the current specification of the physical storage restricts
+   * the length of instance attribute names to maximum of 30 characters,
+   * clients must take care not to exceed this limt.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5959,9 +5965,10 @@ interface InstanceElement {
       raises (AoException);
 
    /** (14007)
-   * Get the related instances. The application relation and the name of
-   * the related  instances specify the listed instances. The pattern is
-   * case sensitive and may contain wildcard characters.
+   * Get the related instances. The application relation and the search
+   * name pattern of the related instances specify the instances to
+   * retrieve. The name pattern is case sensitive and may contain
+   * wildcard characters.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -5986,9 +5993,10 @@ interface InstanceElement {
       raises (AoException);
 
    /** (14008)
-   * Get the list of related instances. The relationship and the name of
-   * the related instances specify the listed instances. The pattern is
-   * case sensitive and may contain wildcard characters.
+   * Get the list of related instances. The relationship and the name
+   * pattern of the related instances specify the instances to retrieve.
+   * The name pattern is case sensitive and may contain wildcard
+   * characters.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6013,9 +6021,9 @@ interface InstanceElement {
       raises (AoException);
 
    /** (14009)
-   * Get the attribute value (name, value and unit) of the given
-   * attribute of the instance element. This method will not return the
-   * value of relation attributes, use the method getRelatedInstances.
+   * Get the name-value-unit tuple of the given attribute of the instance
+   * element. This method will not return the value of relation
+   * attributes; use the method getRelatedInstances() for this case.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6028,14 +6036,14 @@ interface InstanceElement {
    *
    * @param  attrName  The name of the requested attribute.
    *
-   * @return  The attribute value.
+   * @return  The name-value-unit tuple of the attribute.
    */
    NameValueUnit getValue(
       in Name attrName)
       raises (AoException);
 
    /** (14010)
-   * Get the attribute value (value and unit) of the attribute inherited
+   * Get the attribute's name-value-unit tuple of the attribute inherited
    * from the given base attribute of the instance element. The base name
    * is case insensitive and may not contain wildcard characters.
    *
@@ -6050,15 +6058,17 @@ interface InstanceElement {
    *
    * @param  baseAttrName  The base name of the requested attribute.
    *
-   * @return  The attribute value.
+   * @return  The attribute name-value-unit tuple.
    */
    NameValueUnit getValueByBaseName(
       in Name baseAttrName)
       raises (AoException);
 
    /** (14011)
-   * Get the attribute names from the instance element. The  attributes
-   * reserved for a relation are not listed.
+   * Get the attribute names from the instance element. The attribute
+   * name pattern is case sensitive and may contain wildcard characters.
+   * It can be distinguished between application and instance attributes.
+   * The attributes reserved for a relation are not listed.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6238,8 +6248,9 @@ interface InstanceElement {
 
    /** (14018)
    * Set the value of an application attribute or of an existing instance
-   * attribute, but is doesn't create a new instance attribute; for this
-   * purpose use the method addInstancesAttribute of this interface.
+   * attribute. This method will not create a new instance attribute; for
+   * this purpose use the method addInstanceAttribute() of this
+   * interface.
    * 
    * It is allowed to modify the attribute value outside a transaction
    * but it is recommended to activate a transaction.
@@ -6328,8 +6339,8 @@ interface InstanceElement {
       raises (AoException);
 
    /** (14022)
-   * Set a sequences of values of an application attributes but no
-   * instances attributes.
+   * Set a sequence of values of application attributes but no instances
+   * attributes.
    * 
    * It is allowed to modify the values of the attributes outside a
    * transaction but it is recommended to activate a transaction.
@@ -6337,6 +6348,12 @@ interface InstanceElement {
    * The name of the attribute is specified by the name of the
    * NameValueUnit tuple. If the application attribute flag unique is
    * set, the uniqueness of the new value is checked.
+   * 
+   * Note: As the current specification of the physical storage restricts
+   * the length of names of instance attributes to a maximum of 30
+   * characters, clients must take care to not exceed this limit if they
+   * instance attributes (those that arte not given by the application
+   * model) with this method call.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6359,10 +6376,11 @@ interface InstanceElement {
    /** (14023)
    * The given user group the rights should be set for. <rights> defines
    * the rights to set or to clear. If the parameter <set> is set to
-   * 'set', the rights in <rights> are set all others are cleared. If the
-   * parameter <set> is set to 'add', the rights in <rights> are added to
-   * the existing rights. If the parameter <set> is set to 'remove', the
-   * rights in <rights> are removed from the existing rights.
+   * 'set', the rights in <rights> are set, all others are cleared. If
+   * the parameter <set> is set to 'add', the rights in <rights> are
+   * added to the existing rights. If the parameter <set> is set to
+   * 'remove', the rights in <rights> are removed from the existing
+   * rights.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6404,7 +6422,7 @@ interface InstanceElement {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The access control list entries of the given application
+   * @return  The access control list entries of the given instance
    *          element.
    */
    ACLSequence getRights()
@@ -6424,7 +6442,7 @@ interface InstanceElement {
    *    AO_SESSION_NOT_ACTIVE
    *
    * @return  The access control list entries with the initial rights of
-   *          the given application element.
+   *          the given instance element.
    */
    InitialRightSequence getInitialRights()
       raises (AoException);
@@ -6569,10 +6587,9 @@ interface InstanceElement {
       raises (AoException);
 
    /** (14030)
-   * Destroy the object on the server. The destructor of the client so
-   * the server knows this object is not used anymore by the client.
-   * Access to this object after the destroy method will lead to an
-   * exception.
+   * Destroy the object on the server. This method is used to tell the
+   * server that this object is not used anymore by the client. Access to
+   * this object after the destroy method will lead to an exception.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6614,8 +6631,8 @@ interface InstanceElement {
       raises (AoException);
 
    /** (14032)
-   * Create a list with instances which are related to the actual
-   * instance element. The attribute are given with the name of the
+   * Create a list with new instances which are related to the actual
+   * instance element. The attributes are given with the name of the
    * sequence. The values of the attributes are given in the value
    * sequence. The index in the different value sequences match for one
    * instance element. The index in the instance element sequence of the
@@ -6631,7 +6648,6 @@ interface InstanceElement {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *    AO_TRANSACTION_NOT_ACTIVE
-   *    AO_INVALID_REQUEST
    *
    * @param  applRel  The application relation for witch the related
    *                  instances will be created.
@@ -6714,6 +6730,9 @@ interface InstanceElementIterator {
 
    /** (15003)
    * Get the next n elements from the sequence.
+   * In case there are less elements available than requested, only as
+   * many as are available will be returned; if there is none left an
+   * empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6734,6 +6753,7 @@ interface InstanceElementIterator {
 
    /** (15004)
    * Get the next element from the sequence.
+   * In case no element is available a NIL object is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6766,7 +6786,7 @@ interface InstanceElementIterator {
 
 /**
 * The ASAM ODS measurement interface.The interface Measurement extends
-* the interface InstanceElement. Thus alll methods of the interface
+* the interface InstanceElement. Thus all methods of the interface
 * InstanceElement do also work here.
 */
 interface Measurement : InstanceElement {
@@ -6849,7 +6869,7 @@ interface Measurement : InstanceElement {
    /** (16005)
    * Get the value matrix of a measurement in the requested mode.
    * 
-   * The server checks the independent column, if there is more than one
+   * The server checks the independent column. If there is more than one
    * submatrix at the measurement there must be exactly one independent
    * column with the same measurement quantity in each submatrix,
    * otherwise the exception AO_INVALID_VALUEMATRIX_STRUCTURE is
@@ -6858,24 +6878,25 @@ interface Measurement : InstanceElement {
    * The server throws the exception AO_INVALID_VALUEMATRIX_STRUCTURE
    * when it is unable to create the value matrix due to the data of the
    * measurement
-   * - if there are no independent column
+   * - if there are no independent columns
    * - if there are different independent columns
-   * - if there are sub matrices with more than one independent column.
+   * - if there are sub matrices with more than one independent local
+   * column.
    * 
-   * The server orders the values according to the values of the
-   * independent localcolumn. (in ascending order) It is up to the server
+   * The server sorts the values according to the values of the
+   * independent localcolumn (in ascending order). It is up to the server
    * what value is returned when a measurement quantity has two different
-   * values at the same independent point. The gaps are marked with Flags
-   * in TS_ValueSeq (flagvalue = 0).
+   * values at the same measurement point. The gaps in the value matrix
+   * are marked with appropriate flags in TS_ValueSeq (flagvalue = 0).
    * 
    * In the CALCULATED mode the server returns the calculated values for
    * implicit and raw values. The server returns at each measurement
    * point the explicit value as the value for the implicit channels. The
    * raw values are calculated to the explicit values.
    * 
-   * In the STORAGE mode the server handles the values of the localcolumn
-   * as they are in the storage. Write is only allowed when the value
-   * matrix is in the STROAGE mode.
+   * In the STORAGE mode the server returns the values of the localcolumn
+   * as they are in the physical storage. Writing values to a value
+   * matrix is only allowed when the value matrix is STROAGE.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6932,7 +6953,10 @@ interface NameIterator {
       raises (AoException);
 
    /** (17003)
-   * Get the next n elements from the sequence.
+   * Get the next n elements from the name sequence.
+   * In case there are less elements available than requested, only as
+   * many as are available will be returned; if there is none left an
+   * empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6952,7 +6976,8 @@ interface NameIterator {
       raises (AoException);
 
    /** (17004)
-   * Get the next element from the sequence.
+   * Get the next element from the name sequence.
+   * In case no element is available a CORBA exception will be thrown.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -6968,7 +6993,8 @@ interface NameIterator {
       raises (AoException);
 
    /** (17005)
-   * Reset the pointer in the element sequence to the first element.
+   * Reset the internal pointer in the element sequence to the first
+   * element.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7019,7 +7045,10 @@ interface NameValueIterator {
       raises (AoException);
 
    /** (18003)
-   * Get the next n elements from the sequence.
+   * Get the next n elements from the NameValue sequence.
+   * In case there are less elements available than requested, only as
+   * many as are available will be returned; if there is none left an
+   * empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7032,7 +7061,7 @@ interface NameValueIterator {
    *
    * @param  how_many  The number of requested elements.
    *
-   * @return  The next n name-value pairs from the name-value pair
+   * @return  The next n NameValue pairs from the NameValue pair
    *          sequence.
    */
    NameValueSequence nextN(
@@ -7040,7 +7069,8 @@ interface NameValueIterator {
       raises (AoException);
 
    /** (18004)
-   * Get the next element from the sequence.
+   * Get the next element from the NameValue sequence.
+   * In case no element is available a NIL object is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7050,13 +7080,14 @@ interface NameValueIterator {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The next name-value pair from the name-value pair sequence.
+   * @return  The next NameValue pair from the NameValue pair sequence.
    */
    NameValue nextOne()
       raises (AoException);
 
    /** (18005)
-   * Reset the pointer in the element sequence to the first element.
+   * Reset the internal pointer in the element sequence to the first
+   * element.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7072,9 +7103,9 @@ interface NameValueIterator {
 }; // Interface NameValueIterator.
 
 /**
-* The ASAM ODS name-value-unit iterator interface. This interface is
+* The ASAM ODS NameValueUnit iterator interface. This interface is
 * identical with the NameValueUnitIdIterator, except the unit is given as
-* a string insead of an Id.
+* a string instead of an Id.
 */
 interface NameValueUnitIterator {
 
@@ -7109,7 +7140,10 @@ interface NameValueUnitIterator {
       raises (AoException);
 
    /** (19003)
-   * Get the next n elements from the sequence.
+   * Get the next n elements from the NameValueUnit sequence.
+   * In case there are less elements available than requested, only as
+   * many as are available will be returned; if there is none left an
+   * empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7122,7 +7156,7 @@ interface NameValueUnitIterator {
    *
    * @param  how_many  The number of requested elements.
    *
-   * @return  The next n name-value-unit tuples from the name-value-unit
+   * @return  The next n NameValueUnit tuples from the NameValueUnit
    *          tuple sequence.
    */
    NameValueUnitSequence nextN(
@@ -7130,7 +7164,8 @@ interface NameValueUnitIterator {
       raises (AoException);
 
    /** (19004)
-   * Get the next element from the sequence.
+   * Get the next element from the NameValueUnit sequence.
+   * In case no element is available a NIL object is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7140,14 +7175,15 @@ interface NameValueUnitIterator {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The next name-value-unit tuple from the name-value-unit
-   *          tuple sequence.
+   * @return  The next NameValueUnit tuple from the NameValueUnit tuple
+   *          sequence.
    */
    NameValueUnit nextOne()
       raises (AoException);
 
    /** (19005)
-   * Reset the pointer in the element sequence to the first element.
+   * Reset the internal pointer in the element sequence to the first
+   * element.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7388,7 +7424,7 @@ interface SMatLink {
 * The ASAM ODS submatrix interface. The instances of the submatrix can be
 * accessed via the method getRelatedInstances of the interface
 * Measurement. The interface SubMatrix extends the interface
-* InstanceElement. Thus alll methods of the interface InstanceElement do
+* InstanceElement. Thus all methods of the interface InstanceElement do
 * also work here.
 */
 interface SubMatrix : InstanceElement {
@@ -7464,23 +7500,26 @@ interface SubMatrix : InstanceElement {
       raises (AoException);
 
    /** (21004)
-   * Get the value matrix of a submatrix in the requested mode.
+   * Get the value matrix of the submatrix in the requested mode.
    * 
-   * The server doesn't check any independent columns. The columns are
-   * only the local columns from this submatrix. The flags in the
-   * TS_ValueSeq are the flags of the localcolumn. If no flags are given
-   * there are no flags available, the client have to check the
-   * global_flag.
+   * The server doesn't check any independent columns. The local  columns
+   * of the value matrix are exactly the local columns of this submatrix.
+   * The flags in the TS_ValueSeq are the flags of the local columns. If
+   * no flags are given there are no flags available in the physical
+   * storage, and the client has to consider the global_flag.
    * 
-   * In the CALCULATED mode the server returns the calculated values for
-   * implicit and raw values. The server returns at each measurement
-   * point the explicit value as the value for the implicit channels. The
-   * raw values are calculated to the explicit values.
+   * If the requested mode is 'CALCULATED' the server returns the
+   * calculated values for implicit and raw values. Implicit local
+   * columns will be expanded to a sequence of explicit values by using
+   * the generation parameters. Local columns storing raw values will be
+   * re-calculated using the raw values together with the generation
+   * parameters .
    * 
    * In the STORAGE mode the server handles the values of the localcolumn
-   * as they are in the storage. Write is only allowed when the value
-   * matrix is in the STROAGE mode. The values are exactly from this
-   * submatrix. The raw / implicit values are returned.
+   * as they are in the physical storage. Writing values to a value
+   * matrix is only allowed if the value matrix is in the STORAGE mode.
+   * The values are exactly from this submatrix. The raw / implicit
+   * values are returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7547,8 +7586,9 @@ interface ValueMatrix {
       raises (AoException);
 
    /** (22003)
-   * Get the independent columns of the value matrix. The independent
-   * columns are the columns used to build the value matrix.
+   * Get the independent columns of the submatrices used to compose the
+   * value matrix. The independent column of the value matrix is the
+   * union of the independent columns of these submatrices.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7666,7 +7706,8 @@ interface ValueMatrix {
    *
    * @param  startPoint  The starting point in the column.
    *
-   * @param  count  The number of points to be retrieved.
+   * @param  count  The number of points to be retrieved. 0 means until
+   *                end of column.
    *
    * @return  The requested column values of the value matrix.
    */
@@ -7714,7 +7755,7 @@ interface ValueMatrix {
    *    AO_SESSION_NOT_ACTIVE
    *
    * @param  colPattern  The name or the search pattern for the
-   *                     independent column name.
+   *                     independent column names.
    *
    * @return  The names of the independent columns of the value matrix.
    */
@@ -7723,9 +7764,10 @@ interface ValueMatrix {
       raises (AoException);
 
    /** (22009)
-   * Remove the values of the columns at a given measurement point.
-   * Remove the number of points of the given column. If the count is 0
-   * all points until the end of the column are removed.
+   * Remove the values of multiple columns at a given measurement point
+   * or remove the number of points of the given columns beginning at
+   * meapoint. If the count is 0 all points until the end of the columns
+   * are removed.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7743,7 +7785,8 @@ interface ValueMatrix {
    *
    * @param  meaPoint  The measurement point to be removed.
    *
-   * @param  count  The number of points to be removed from each column.
+   * @param  count  The number of points to be removed from each column
+   *                beginning at meapoint.
    */
    void removeValueMeaPoint(
       in NameSequence columnNames,
@@ -7752,9 +7795,9 @@ interface ValueMatrix {
       raises (AoException);
 
    /** (22010)
-   * Remove the values from a value vector. Beginning at startPoint the
+   * Remove the values from a single column. Beginning at startPoint the
    * number of values specified in count are removed. If count is 0 all
-   * values from  the startPoint until the end of the vector are removed.
+   * values from  the startPoint until the end of the column are removed.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -7781,10 +7824,11 @@ interface ValueMatrix {
       raises (AoException);
 
    /** (22011)
-   * Create or modify a measurement point of a value matrix. 
-   * The sequence of name values specifies the names of the column with
+   * Create or modify a single measurement point in multiple columns of a
+   * value matrix. 
+   * The sequence of name values specifies the names of the columns with
    * the new values. 
-   * The meaning of the parameter setType is:
+   * The meaning of the parameter 'set' is:
    * 
    *    INSERT   Insert the values at meaPoint, the current values at
    * meaPoint    are moved to the end of  the new inserted values.
@@ -7800,7 +7844,7 @@ interface ValueMatrix {
    * The names of the columns have to exist.
    * 
    * When a client creates a ValueMatrix based on AoMeasurement this
-   * methods behaves as follows:
+   * method behaves as follows:
    * The server checks the sub matrices and creates all necessary
    * instances of AoSubmatrix, AoLocalColumn and AoMeasurementQuantity. 
    * The values of the name attribute of AoSubmatrix must be generated by
@@ -7830,7 +7874,7 @@ interface ValueMatrix {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @param  set  The set type.
+   * @param  set  The SetType.
    *
    * @param  meaPoint  The measurement point.
    *
@@ -8175,10 +8219,10 @@ interface ValueMatrix {
       raises (AoException);
 
    /** (22020)
-   * Destroy the object on the server. The destructor of the client, so
-   * the server knows this object is not used anymore by the client.
-   * Access to this object after the destroy method will lead to an
-   * exception.
+   * Destroy the object on the server. The method is used to tell the
+   * server that this object is not used any more by the client. Access
+   * to this object after the invokation of the destroy method will lead
+   * to an exception.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -8225,13 +8269,13 @@ interface ValueMatrix {
    *
    * @param  startPoint  The starting point in the column.
    *
-   * @param  count  The number of points to be retrieved. 0 mean until
+   * @param  count  The number of points to be retrieved. 0 means until
    *                end of column.
    *
    * @return  The values of the different columns. The name of the return
    *          structure corresponds with the name of the column. The unit
    *          corresponds with the unit of the column. The order of the
-   *          results might not match the order in the requested
+   *          results might not match the order in the requesting
    *          sequence.
    */
    NameValueSeqUnitSequence getValue(
@@ -8259,9 +8303,9 @@ interface ValueMatrix {
 }; // Interface ValueMatrix.
 
 /**
-* The ASAM ODS name-value-unitId iterator interface. This interface is
+* The ASAM ODS NameValueUnitId iterator interface. This interface is
 * identical with the NameValueUnitIterator, except the unit is given as
-* an Id insead of a string.
+* an Id instead of a string.
 */
 interface NameValueUnitIdIterator {
 
@@ -8297,6 +8341,9 @@ interface NameValueUnitIdIterator {
 
    /** (23003)
    * Get the next n elements from the sequence.
+   * In case there are less elements available than requested, only as
+   * many as are available will be returned; if there is none left an
+   * empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -8318,6 +8365,7 @@ interface NameValueUnitIdIterator {
 
    /** (23004)
    * Get the next element from the sequence.
+   * In case no element is available a NIL object is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -8334,7 +8382,8 @@ interface NameValueUnitIdIterator {
       raises (AoException);
 
    /** (23005)
-   * Reset the pointer in the element sequence to the first element.
+   * Reset the internal pointer in the element sequence to the first
+   * element.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -8350,9 +8399,9 @@ interface NameValueUnitIdIterator {
 }; // Interface NameValueUnitIdIterator.
 
 /**
-* The application element access.  The ApplElemAccess interface (RPC API
-* GetVal, PutVal, GetInstRef, ...) is responsible to retrieve instances
-* of application elements. Currently available query methods are:
+* The application element access.  The ApplElemAccess interface provides
+* query methods to retrieve instances of application elements. Currently
+* available query methods are:
 * - query with attribute and value
 * - query with attribute and values (not)in set
 * - sorted results
@@ -8364,10 +8413,10 @@ interface ApplElemAccess {
    * Perform the Query.
    * 
    * The number of different application elements which are requested are
-   * exactly defined by the definition of the query given in the field
-   * anuSeq of the QueryStructure. The number of attributes for each
-   * application element is also given in the definition. The number of
-   * matching instances (their attributes) is not defined by the query
+   * exactly defined by the definition of the query given in the
+   * substructure anuSeq of QueryStructure. The number of attributes for
+   * each application element is also given in the definition. The number
+   * of matching instances (their attributes) is not defined by the query
    * and can be a large amount. Therefore only one iterator for the
    * attribute values are defined.
    * 
@@ -8375,12 +8424,13 @@ interface ApplElemAccess {
    * when the following criteria all fit:
    * 
    * - Only when the attributes id, generation_parameters, values, flags
-   * are requested, as soon as any other attributes is requested the
-   * values are not reported.
+   * are requested (as soon as any other attributes are requested the
+   * values are not reported).
    * - The values of the localcolumn must all belong to exactly one
-   * instances of AoMeasurement
-   * - The server have a limitation of the memory, not the system memory
-   * limitation, as soon as the result set will break the limitation an
+   * instance of AoMeasurement
+   * - The result set does not exceed the server memory limitation. An
+   * ASAM ODS server has a memory limitation (not the system memory
+   * limitation); as soon as the result set breaks this limitation an
    * exception will be thrown.
    * 
    * - No iterator for the rest is required.
@@ -8436,19 +8486,11 @@ interface ApplElemAccess {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @param  elem  Original instance. 
-   *               
-   *               At the RPC API this information was stored in the
-   *               field elemId of the structure GetInstRefReq and the
-   *               request AOP_GetInstRef.
+   * @param  elem  Original instance.
    *
-   * @param  relName  The relation name. 
-   *                  
-   *                  At the RPC API this information was stored in the
-   *                  field refName of the structure GetInstRefReq   and
-   *                  the request AOP_GetInstRef.
+   * @param  relName  The relation name.
    *
-   * @return  The list of the Id of the related instances.
+   * @return  The list of the Ids of the related instances.
    */
    S_LONGLONG getRelInst(
       in ElemId elem,
@@ -8456,7 +8498,7 @@ interface ApplElemAccess {
       raises (AoException);
 
    /** (24003)
-   * Set the instance reference.
+   * Add a set of instances as related instances to a given instance.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -8467,31 +8509,14 @@ interface ApplElemAccess {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @param  elem  The instance to add the related instances.
-   *               
-   *               At the RPC API this information was stored in the
-   *               field elemId1 of the structure SetInstRefReq  and the
-   *               request AOP_SetInstRef.
+   * @param  elem  The instance to add to the given relation.
    *
-   * @param  relName  The name of relation. 
-   *                  
-   *                  At the RPC API this information was stored in the
-   *                  field refName of the structure SetInstRefReq and
-   *                  the request AOP_SetInstRef.
+   * @param  relName  The name of relation.
    *
-   * @param  instIds  Sequence of instance id's. 
-   *                  
-   *                  At the RPC API this information was stored in the
-   *                  field elemId2 of the structure SetInstRefReq and
-   *                  the request AOP_SetInstRef. It was not possible to
-   *                  set more then one relation.
+   * @param  instIds  Sequence of instance id's.
    *
    * @param  type  The type of the modification, insert, update or
-   *               remove. 
-   *               
-   *               At the RPC API this information was stored in the
-   *               field on off of the structure SetInstRefReq and the
-   *               request AOP_SetInstRef.
+   *               remove.
    */
    void setRelInst(
       in ElemId elem,
@@ -8531,11 +8556,7 @@ interface ApplElemAccess {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @param  val  The sequence of attributes and their values. 
-   *              
-   *              At the RPC API this information was stored in the
-   *              fields elemId and nvSeq of the structure PutValReq and
-   *              the request AOP_PutValReq.
+   * @param  val  The sequence of attributes and their values.
    *
    * @return  List with the Id's of the new created instances.
    */
@@ -8559,10 +8580,11 @@ interface ApplElemAccess {
    * are given, as soon as any other attributes is given an exception is
    * thrown.
    * - The values of the localcolumn must all belong to exactly one
-   * instances of AoMeasurement
-   * - The server have a limitation of the memory, not the system memory
-   * limitation, as soon as the given values breaks the limitation an
-   * exception will be thrown.
+   * instance of AoMeasurement
+   * - The amount of given values does not exceed the server memory
+   * limitation. An ASAM ODS server has a memory limitation (not the
+   * system memory limitation); as soon as the given values break the
+   * limitation an exception will be thrown.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -8575,11 +8597,7 @@ interface ApplElemAccess {
    *
    * @param  val  The sequence of attributes and their values. At least
    *              one of the attribute values sequence must be a sequence
-   *              with the Id. 
-   *              
-   *              At the RPC API this information was stored in the
-   *              fields elemId and nvSeq of the structure PutValReq and
-   *              the request AOP_PutValReq.
+   *              with the Id.
    */
    void updateInstances(
       in AIDNameValueSeqUnitIdSequence val)
@@ -8590,7 +8608,7 @@ interface ApplElemAccess {
    * application elements the Id of the super type has to be specified.
    * 
    * This method can be used to delete several instances of the same
-   * application element, the method removeInstance of the interface
+   * application element. The method removeInstance of the interface
    * ApplicationElement to remove one instance of an application element
    * with the children of the instance element.
    *
@@ -8605,11 +8623,7 @@ interface ApplElemAccess {
    *
    * @param  aid  The application element Id.
    *
-   * @param  instIds  The sequence of instance Id's. 
-   *                  
-   *                  At the RPC API this information was stored in the
-   *                  fields elemId and nvSeq of the structure PutValReq
-   *                  and the request AOP_PutValReq.
+   * @param  instIds  The sequence of instance Id's.
    */
    void deleteInstances(
       in T_LONGLONG aid,
@@ -8726,10 +8740,10 @@ interface ApplElemAccess {
       raises (AoException);
 
    /** (24010)
-   * Set the ACL information on some instance defined by the application
-   * element id <aid> and a sequence of instance defined by the id <iid>.
-   * The <usergroup_id> defines the user group the rights should be set
-   * for. <rights> defines the rights to set or to clear. If the
+   * Set the ACL information on some instances defined by the application
+   * element id <aid> and a sequence of instances defined by the id
+   * <iid>. The <usergroup_id> defines the user group the rights should
+   * be set for. <rights> defines the rights to set or to clear. If the
    * parameter <set> is set to 'set', the rights in <rights> are set all
    * others are cleared. If the parameter <set> is set to 'add', the
    * rights in <rights> are added to the existing rights. If the
@@ -8781,7 +8795,7 @@ interface ApplElemAccess {
    *
    * @param  attrName  The name of the attribute.
    *
-   * @return  The access control list entries of the give application
+   * @return  The access control list entries of the given application
    *          attribute.
    */
    ACLSequence getAttributeRights(
@@ -8864,7 +8878,7 @@ interface ApplElemAccess {
    *                 rights constants are defined in the interface
    *                 SecurityRights. The interface definition language
    *                 IDL does not allow to set the values of enumerations
-   *                 thus the constant definitions had to be done in an
+   *                 thus the constant definitions have to be done in an
    *                 interface.
    *
    * @param  refAid  The Id of referencing application element for which
@@ -8886,7 +8900,7 @@ interface ApplElemAccess {
    /** (24015)
    * Set the access control list information for the initial rights on
    * some instance defined by the application element id <aid> and a
-   * sequence of instance defined by the id <iid>. The <usergroup_id>
+   * sequence of instances defined by the id <iid>. The <usergroup_id>
    * defines the user group the rights should be set for. <rights>
    * defines the rights to set or to clear. If the parameter <set> is set
    * to 'set', the rights in <rights> are set all others are cleared. If
@@ -9037,11 +9051,11 @@ interface ApplElemAccess {
    * application element is also given in the definition. The number of
    * matching instances (their attributes) is not defined by the query
    * and can be a large amount. Therefore only one iterator for the
-   * attribute values are defined.
+   * attribute values is defined.
    * 
    * The return is a sequence of the structure ResultSetExt . This
    * sequence will always have the length of 1. This
-   * element in the structure have two fields 
+   * element in the structure has two fields 
    *   - firstElems of type ElemResultSetExtSequence
    *   - restElems of type ElemResultSetExtSeqIterator
    * 
@@ -9057,25 +9071,25 @@ interface ApplElemAccess {
    * is given in the field unitId, this is the Id of the instance of the
    * application element derived from the base element AoUnit. The values
    * are given in the field value with the type TS_ValueSeq. Each value
-   * sequence has the same length, this length is maximum how_many the
-   * parameter of the method. If no values are found the length of the
-   * sequence is 0. The values with the same index in the different
-   * sequences of the entry in the NameValueSeqUnitIdSequence belongs to
-   * the same instance element. 
+   * sequence has the same length, this length is less or equal to
+   * maximum how_many (the parameter of the method). If no values are
+   * found the length of the sequence is 0. The values with the same
+   * index in the different sequences of the entry in the
+   * NameValueSeqUnitIdSequence belong to the same instance element. 
    * 
    * restElems
    * The restElems is an iterator for the remaining sequence of
    * ElemResultSetExt. This iterator allows to load the next N values
-   * from the ResultSet. The result of the element is the same way stored
-   * as at the field firstElems, the next N is the length of the sequence
-   * of the field value of the NameValueSeqUnitId. The method nextOne is
+   * from the ResultSet. The result of the element is stored the same way
+   * as at the firstElems, the next N is the length of the sequence of
+   * the field value of the NameValueSeqUnitId. The method nextOne is
    * wrong specified and should not be used, use instead the method nextN
-   * with n=1. The method getCount return the total number of found
-   * element, also the number already returned in firstElems. The method
-   * reset set the iterator the beginning of the ResultSet, this is the
+   * with n=1. The method getCount returns the total number of elements
+   * found, the number already returned in firstElems. The method reset
+   * set the iterator the beginning of the ResultSet, this is the
    * beginning of the firstElems.
    * 
-   * The values of the localcolumn instances is part of the resultset
+   * The values of the localcolumn instances are part of the resultset
    * when the following criteria all fit:
    * 
    * - Only when the attributes id, generation_parameters, values, flags
@@ -9525,7 +9539,7 @@ interface Query {
 
    /** (26006)
    * Get the query result. This method should only be called after the
-   * query has been executed. It returns the result as an structure.
+   * query has been executed. It returns the result as a structure.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9588,6 +9602,9 @@ interface NameValueUnitSequenceIterator {
 
    /** (27003)
    * Get the next n elements from the sequence.
+   * In case there are less elements available than requested, only as
+   * many as are available will be returned; if there is none left an
+   * empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9610,6 +9627,7 @@ interface NameValueUnitSequenceIterator {
 
    /** (27004)
    * Get the next element from the iterator.
+   * In case no element is available a NIL object is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9626,7 +9644,8 @@ interface NameValueUnitSequenceIterator {
       raises (AoException);
 
    /** (27005)
-   * Reset the pointer in the element iterator to the first element.
+   * Reset the internal pointer in the element iterator to the first
+   * element.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9707,7 +9726,7 @@ interface EnumerationDefinition {
       raises (AoException);
 
    /** (28003)
-   * Add a new item to the enumeration. This method modifies the
+   * Append a new item to the enumeration. This method modifies the
    * application model and is only allowed for the super user.
    * 
    * The name of an item must not exceed the maximum name length of the
@@ -9800,7 +9819,7 @@ interface EnumerationDefinition {
       raises (AoException);
 
    /** (28007)
-   * Get the index of the enumeration.
+   * Get the index of the enumeration definition.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9860,6 +9879,9 @@ interface ElemResultSetExtSeqIterator {
 
    /** (29002)
    * Get the next n elements from the sequence.
+   * In case there are less elements available than requested, only as
+   * many as are available will be returned; if there is none left an
+   * empty list is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9879,7 +9901,9 @@ interface ElemResultSetExtSeqIterator {
       raises (AoException);
 
    /** (29003)
-   * Get the next  element from the sequence.
+   * Get the attributes of the next  instance element from the
+   * sequence.
+   * In case no element is available a NIL object is returned.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9889,14 +9913,15 @@ interface ElemResultSetExtSeqIterator {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The next attribute values from the element result set
-   *          sequence.
+   * @return  The attribute values of the next instance element from the
+   *          element result set sequence.
    */
    ElemResultSetExt nextOne()
       raises (AoException);
 
    /** (29004)
-   * Reset the pointer in the element sequence to the first element.
+   * Reset the intwrnal pointer in the element sequence to the first
+   * element.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -9923,7 +9948,7 @@ interface ElemResultSetExtSeqIterator {
 * well. Note, that no random access on a file is provided; only a
 * sequential read and a write by appending at the end is possible.
 * 
-* Replacing an existing file by a new one requires to first remove the
+* Replacing an existing file by a new one requires first to remove the
 * old one and then create the new one.
 */
 interface ODSFile : InstanceElement {
@@ -10034,19 +10059,20 @@ interface ODSFile : InstanceElement {
       raises (AoException);
 
    /** (30003)
-   * Create a new file at the ODS server and get the ODSWriteTransfer
-   * interface for that file, to allow storing bytes to the file.
+   * Create a new file on the host of the ODS server and get the
+   * ODSWriteTransfer interface for that file, to allow storing bytes to
+   * the file.
    * 
    * This method returns the ODSWriteTransfer interface for the file
    * represented by this ODSFile object. That interface allows to write
    * sequentially to the (initially empty) file. 
    * 
    * Before returning the interface ODSWriteTransfer, the physical file
-   * will be created at the ODS server and opened for subsequent write
-   * operations. The file name will be decided by the ODS server and set
-   * as value of the attribute derived from the base attribute
-   * 'ao_location' of the instance from which this ODSFile object was
-   * created.
+   * will be created on the host computer with the ODS server and opened
+   * for subsequent write operations. The file name will be decided by
+   * the ODS server and set as value of the attribute derived from the
+   * base attribute 'ao_location' of the instance from which this ODSFile
+   * object was created.
    * 
    * In case the current user has no INSERT right for the instance from
    * which this ODSFile object was created, the exception
@@ -10107,10 +10133,10 @@ interface ODSFile : InstanceElement {
    * object. The returned string follows the rules for ODS date and time
    * specification strings.
    * The date returned shall specify the timestamp of the latest change
-   * of the file. It is the information the operating system of the ODS
-   * server provides; if there is no date available from the operating
-   * system with exactly this meaning, the ODS server shall return the
-   * closest information available.
+   * of the file. It is the information the operating system of the host
+   * computer provides where the ODS server is installed; if there is no
+   * date available from the operating system with exactly this meaning,
+   * the ODS server shall return the closest information available.
    * In case the physical file referenced by this ODSFile object cannot
    * be found, the exception AO_SYSTEM_PROBLEM will be thrown.
    * In case the physical file referenced by this ODSFile object is
@@ -10141,7 +10167,8 @@ interface ODSFile : InstanceElement {
    * This method returns the size of the file represented by this ODSFile
    * object. 
    * The returned value shall specify the exact file size in bytes. It is
-   * the information the operating system of the ODS server provides.
+   * the information the operating system of the host computer provides
+   * where the ODS server is installed.
    * In case the physical file referenced by this ODSFile object cannot
    * be found, the exception AO_SYSTEM_PROBLEM will be thrown.
    * In case there is no file defined by the attribute derived from
@@ -10168,12 +10195,12 @@ interface ODSFile : InstanceElement {
       raises (AoException);
 
    /** (30007)
-   * Remove a file from the ODS server.
-   * This method removes the file represented by this ODSFile object from
-   * the ODS server if the user has appropriate rights. The attribute
-   * derived from the base attribute 'ao_location' of the instance from
-   * which this ODSFile object was created will become undefined and
-   * ao_size will be set to 0.
+   * Remove a file from the host computer.
+   * This method physically deletes the file represented by this ODSFile
+   * object from the host computer if the user has appropriate rights.
+   * The attribute derived from the base attribute 'ao_location' of the
+   * instance from which this ODSFile object was created will become
+   * undefined and ao_size will be set to 0.
    * In case the current user has no DELETE right for the instance from
    * which this ODSFile object was created, the exception
    * AO_ACCESS_DENIED will be thrown.
@@ -10282,8 +10309,8 @@ interface ODSFile : InstanceElement {
       raises (AoException);
 
    /** (30010)
-   * Remove a file that is currently under control of the ODS server out
-   * of control of the server and move it to a specified location within
+   * Take a file that is currently under control of the ODS server out of
+   * control of the server and move it to a specified location within
    * reach of the server.
    * This method allows to take files out of control of the ODS server
    * and place them at a specified location, without the need to stream
@@ -10337,7 +10364,7 @@ interface ODSFile : InstanceElement {
 }; // Interface ODSFile.
 
 /**
-* The interface which allows a read transfer (from the ODS server to a
+* The interface which supports a read transfer (from the ODS server to a
 * client) of the content of a file that is under control of the ODS
 * server.
 */
@@ -10348,7 +10375,7 @@ interface ODSReadTransfer {
    /** (31000)
    * Close this ODSReadTransfer interface.
    * 
-   * This method closes the file on the ODS server's file system and
+   * This method closes the file on the host computer's file system and
    * destroys this ODSReadTransfer object.
    *
    * @throws AoException
@@ -10364,20 +10391,21 @@ interface ODSReadTransfer {
 
    /** (31001)
    * Read a sequence of bytes from the file.
-   * This method reads the file at the ODS server referenced by this
+   * This method reads the file by the ODS server referenced by this
    * ODSReadTransfer and returns a sequence of bytes from that file.
    * 
    * The parameter 'maxOctets' controls the return behavior of the ODS
    * server. If the file contains more bytes than are given by
-   * 'maxOctets', only 'maxOctets' bytes will be returned in the first
+   * 'maxOctets', only 'maxOctets' bytes will be returned by the first
    * method invocation. A subsequent method invocation will return the
    * next 'maxOctets' bytes from the file, etc., until the complete file
    * contents has been returned. Further method invocations return an
    * empty sequence.
    * 
-   * If 'maxOctets' is given with a equal to the constant READALL(-1),
-   * there is no restriction on the number of bytes, and the complete
-   * file contents will be returned with only one method invocation.
+   * If 'maxOctets' is given with a value greater than the file size or
+   * equal to the constant READALL(-1), there is no restriction on the
+   * number of bytes, and the complete file contents will be returned
+   * with only one method invocation.
    * 
    * Note that only a sequential reading, starting at the first byte of
    * the file, is supported by this interface. If previous parts of the
@@ -10411,15 +10439,16 @@ interface ODSReadTransfer {
 
    /** (31002)
    * Skip a number of bytes while reading the file.
-   * This method moves the read pointer in the file a number of bytes
-   * ahead, starting at its current position; it will not return those
-   * bytes. The parameter 'numOctets' specifies the number of bytes to
-   * skip.
+   * This method moves the internal read pointer in the file a number of
+   * bytes ahead, starting at its current position; it will not return
+   * those bytes. The parameter 'numOctets' specifies the number of bytes
+   * to skip.
    * 
    * The method returns the true number of bytes that were skipped. This
    * may differ from 'numOctets' e.g. if the end of the file was reached.
-   * If the read pointer has reached the end of the file any further
-   * method invocations will return a value of 0 for 'numSkipped'.
+   * If the internal read pointer has reached the end of the file any
+   * further method invocations will return a value of 0 for
+   * 'numSkipped'.
    * 
    * This method may be invoked several times and may be arbitrarily
    * combined with getOctetSeq().
@@ -10431,7 +10460,7 @@ interface ODSReadTransfer {
    * 
    * If 'numOctets' is given with a value less than 0, the method will
    * throw the exception AO_BAD_PARAMETER and will not perform any file
-   * access nor change the read pointer.
+   * access nor change the internal read pointer.
    *
    * @throws AoException
    * with the following possible error codes:
@@ -10451,7 +10480,8 @@ interface ODSReadTransfer {
       raises (AoException);
 
    /** (31003)
-   * Retrieve the current position of the read pointer in the file.
+   * Retrieve the current position of the internal read pointer in the
+   * file.
    * 
    * This method returns the current byte position of the file pointer.
    * The start of the file corresponds to a position of 0.
@@ -10464,7 +10494,8 @@ interface ODSReadTransfer {
    *    AO_NO_MEMORY
    *    AO_SESSION_NOT_ACTIVE
    *
-   * @return  The current position of the read pointer in the file.
+   * @return  The current position of the internal read pointer in the
+   *          file.
    */
    T_LONGLONG getPosition()
       raises (AoException);
@@ -10472,7 +10503,7 @@ interface ODSReadTransfer {
 }; // Interface ODSReadTransfer.
 
 /**
-* The interface which allows a write transfer (from a client to the ODS
+* The interface which supports a write transfer (from a client to the ODS
 * server) of the content of a file that is under control of the ODS
 * server.
 */
@@ -10481,15 +10512,15 @@ interface ODSWriteTransfer {
    /** (32000)
    * Close this ODSWriteTransfer interface.
    * This method closes the file on the ODS server's file system; thereby
-   * any data to be written to the file and still residing in ODS server
-   * cache will be flushed to the file. 
+   * any data to be written to the file and still residing in the ODS
+   * server cache will be flushed to the file. 
    * The method finally destroys this ODSWriteTransfer object and also
    * the corresponding CORBA object. Access to such objects after having
    * invoked this close method will lead to a CORBA exception.
    * In case the file creation and/or write operations have been
    * performed within a transaction, this method will not yet save the
    * operations' results permanently at the physical file location but
-   * keep them in intermediate storage until the transaction is
+   * keep them in an intermediate storage until the transaction is
    * committed. The file will be locked for any access through
    * ODSReadTransfer or ODSWriteTransfer within any other session until
    * the end of the transaction.
@@ -10515,8 +10546,8 @@ interface ODSWriteTransfer {
 
    /** (32001)
    * Write a sequence of bytes to the file.
-   * This method writes a sequence of bytes to the file at the ODS server
-   * represented by this ODSWriteTransfer. 
+   * This method writes a sequence of bytes to the file represented by
+   * this ODSWriteTransfer on the host computer. 
    * 
    * The parameter 'buffer' contains the byte sequence that is to be
    * written to the file. The contents of 'buffer' will be appended at
@@ -10553,7 +10584,8 @@ interface ODSWriteTransfer {
       raises (AoException);
 
    /** (32002)
-   * Retrieve the current position of the write pointer in the file.
+   * Retrieve the current position of the internal write pointer in the
+   * file.
    * 
    * This method returns the current byte position of the write pointer.
    * The start of the file corresponds to a position of 0.
@@ -10613,12 +10645,12 @@ interface ODSWriteTransfer {
 *
 * AO_DUPLICATE_BASE_ATTRIBUTE
 * Any application element may have only one base attribute of a certain
-* type. This means it may have only one attribute of base attribute type
-* NAME, one ID, one VERSION and so on.
+* type. This means it may have only one attribute of base attribute type,
+* that is only one NAME, only one ID, only one VERSION and so on.
 *
 * AO_DUPLICATE_NAME
-* The implicit or explicit specified name is already in use but it is
-* required to be unique.
+* The implicit or explicit specified name is already in use but the name
+* is required to be unique.
 *
 * AO_DUPLICATE_VALUE
 * The attribute is marked unique in the application model. Thus duplicate
@@ -10755,7 +10787,7 @@ interface ODSWriteTransfer {
 * AO_INVALID_VALUEMATRIX_STRUCTURE
 * The server is unable to create the valuematrix due to the data of the
 * measurement
-*      - if there are no independent column
+*      - if there is no independent column
 *      - if there are different independent columns
 *      - if there are submatrices with more than one independent
 *        column.
@@ -10836,7 +10868,7 @@ interface ODSWriteTransfer {
 * "QueryResultType".
 *
 * AO_QUERY_INVALID_RESULTTYPE
-* The requested result type of the query do no metch with the previous
+* The requested result type of the query does no match with the previous
 * definition of the result type.
 *
 * AO_QUERY_PROCESSING_ERROR
